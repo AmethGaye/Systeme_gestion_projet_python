@@ -9,6 +9,7 @@ from notifications.NotificationStrategy import NotificationStrategy
 
 
 class Projet:
+    # self.membres: List[Membre]=[]
     def __init__(self, nom: str, description: str, date_debut: datetime, date_fin: datetime):
         self.nom = nom
         self.description = description
@@ -43,7 +44,7 @@ class Projet:
         self.jalons.append(jalon)
 
     def enregistrer_changement(self, description: str):
-        self.changements.append(Changement(description, self.version, datetime.now()))
+        self.changements.append(Changement(description, self.version, datetime.time()))
         self.version += 1
 
     def calculer_chemin_critique(self):
@@ -54,6 +55,6 @@ class Projet:
         # Implémenter la logique de génération de rapport de performance ici
         pass
 
-    def notifier(self, message: str, destinataires):
+    def notifier(self, message: str, destinataires: Membre):
         if self.notification_context:
             self.notification_context.notifier(message, destinataires)

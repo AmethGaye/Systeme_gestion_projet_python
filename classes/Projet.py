@@ -1,16 +1,17 @@
 import datetime
 
-from classes.Membre import Membre
-from classes.Risque import Risque
-from classes.Jalon import Jalon
 from classes.Changement import Changement
 from classes.Equipe import Equipe
+from classes.Jalon import Jalon
+from classes.Membre import Membre
+from classes.Risque import Risque
 from classes.Tache import Tache
 from notifications.NotificationContext import NotificationContext
 from notifications.NotificationStrategy import NotificationStrategy
 
 
 class Projet:
+
     def __init__(self, nom: str, description: str, date_debut: datetime.datetime, date_fin: datetime.datetime):
         self.nom = nom
         self.description = description
@@ -31,22 +32,28 @@ class Projet:
 
     def ajouter_tache(self, tache: Tache):
         self.taches.append(tache)
+        self.notifier(f'Nouvelle tache ajoutée: {tache.nom}', self.equipe.obtenir_membres())
 
     def ajouter_membre_equipe(self, membre: Membre):
         self.equipe.ajouter_membre(membre)
+        self.notifier(f"{membre.nom} a été ajoutée à l'équipe", self.equipe.obtenir_membres())
 
     def definir_budget(self, budget: float):
         self.budget = budget
+        self.notifier(f"Le budget du projet a été défini à {self.budget} FCFA", self.equipe.obtenir_membres())
 
     def ajouter_risque(self, risque: Risque):
         self.risques.append(risque)
+        self.notifier(f"Nouveau risque ajouté: {risque.description}", self.equipe.obtenir_membres())
 
     def ajouter_jalon(self, jalon: Jalon):
         self.jalons.append(jalon)
+        self.notifier(f"Nouveau jalon ajouté: {jalon.nom}", self.equipe.obtenir_membres())
 
     def enregistrer_changement(self, description: str):
         self.changements.append(Changement(description, self.version, datetime.datetime.now()))
         self.version += 1
+        self.notifier(f"Changement enregistré: {description} (version {self.version})", self.equipe.obtenir_membres())
 
     def calculer_chemin_critique(self):
         date_debut_tot = {tache: tache.date_debut for tache in self.taches}
@@ -59,6 +66,7 @@ class Projet:
             if tache.dependances:
                 date_debut_tot[tache] = max(date_fin_tot[dependance] for dependance in tache.dependances)
             date_fin_tot[tache] = date_debut_tot[tache] + (tache.date_fin - tache.date_debut)
+
 
         # Tâche finale pour commencer la propagation des dates au plus tard
         tache_finale = max(self.taches, key=lambda t: date_fin_tot[t])
@@ -84,6 +92,10 @@ class Projet:
         for tache in chemin_critique:
             print(f"{tache.nom} ({tache.date_debut.strftime('%Y-%m-%d')}, {tache.date_fin.strftime('%Y-%m-%d')})")
 
+
+    def notifier(self, message: str, destinataires):
+        if self.notification_context:
+            self.notification_context.notifier(message, destinataires)
 # Exemple d'utilisation
 #membre = Membre("Alice", 'assistant')
 
@@ -103,3 +115,7 @@ class Projet:
 ##projet.ajouter_tache(tache3)
 #projet.ajouter_membre_equipe(membre)
 #projet.calculer_chemin_critique()
+
+
+
+

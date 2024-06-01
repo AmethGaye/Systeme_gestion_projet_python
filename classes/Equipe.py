@@ -5,7 +5,7 @@ class Equipe:
     def __init__(self):
         self.membres = []
 
-    def ajouter_membre(self, membre: Membre) -> None:
+    def ajouter_membre(self, membre: Membre):
         self.membres.append(membre)
 
     def obtenir_membres(self):

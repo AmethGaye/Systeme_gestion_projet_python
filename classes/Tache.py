@@ -19,7 +19,4 @@ class Tache:
 
     def mettre_a_jour_statut(self, statut: str):
         self.statut = statut
-<<<<<<< HEAD
 
-=======
->>>>>>> ff824910a34c5e59a5c6a3e82c3ec2e4835a87c7

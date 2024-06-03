@@ -1,5 +1,6 @@
 import unittest
 from datetime import datetime
+
 from classes.Changement import Changement
 from classes.Equipe import Equipe
 from classes.Jalon import Jalon
@@ -33,8 +34,11 @@ class TestProjet(unittest.TestCase):
 
 
 
-installed_packages = [pkg.key for pkg in pkg_resources.working_set]
-print(installed_packages)
+    def test_ajouter_tache(self):
+        self.projet.ajouter_tache(self.tache)
+        self.assertEqual(self.projet.taches,[self.tache])
+
+
 
 if __name__ == '__main__':
     unittest.main()

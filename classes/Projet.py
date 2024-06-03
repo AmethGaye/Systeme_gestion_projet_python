@@ -109,7 +109,7 @@ class Projet:
             date_debut_tard[tache] = date_fin_tard[tache] - (tache.date_fin - tache.date_debut)
 
         # Identification des tâches du chemin critique
-        self.chemin_critique = [tache for tache in self.taches if date_debut_tard[tache] == date_debut_tot[tache]]
+        self.chemin_critique = [tache for tache in self.taches]
 
     def afficher_chemin_critique(self):
         tache = "\n"

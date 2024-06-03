@@ -22,7 +22,7 @@ class TestProjet(unittest.TestCase):
         # instance des classes
         membre = Membre("Mamadou Ba", "Développeur")
         tache = Tache("Analyse des besoins", "test", '2024-06-03', '2024-06-10', membre, "Non démarrée")
-        projet = Projet("Soumaya", "test", date_debut.date(), date_fin.date())
+        projet = Projet("Soumaya", "test", date_debut, date_fin)
         risque = Risque("Retard de livraison", 0.4, "Elevé")
         jalon = Jalon("phase 1", date.date())
         equipe = Equipe()

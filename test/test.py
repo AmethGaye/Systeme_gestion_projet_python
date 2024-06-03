@@ -50,6 +50,7 @@ class TestProjet(unittest.TestCase):
         date_fin = datetime(2024, 7, 6)
         date = datetime(2024, 6, 3)
         # instance des classes
+<<<<<<< HEAD
         membre = Membre("Mamadou Ba", "Développeur")
         self.tache = Tache("Analyse des besoins", "test", '2024-06-03', '2024-06-10', membre, "Terminée")
         self.projet = Projet("Soumaya", "test", date_debut, date_fin)
@@ -60,11 +61,22 @@ class TestProjet(unittest.TestCase):
         sms_notif = SMSNotificationStrategy()
         push_notif = PushNotificationStrategy()
         notifContext = NotificationContext(email_notif)
+=======
+        self.membre = Membre("Mamadou Ba", "Développeur")
+        self.tache = Tache("Analyse des besoins", "test", datetime(2024,6,3), datetime(2024,7,12), self.membre, "Non démarrée")
+        self.tache1 = Tache("Developpement", "phase de devolpppement", datetime(2024,6,3), datetime(2024,7,12), self.membre, "Non démarrée")
+        self.projet = Projet("Soumaya", "test", date_debut.date(), date_fin.date())
+        self.risque = Risque("Retard de livraison", 0.4, "Elevé")
+        self.jalon = Jalon("phase 1", date.date())
+        self.equipe = Equipe()
+        self.email_notif = EmailNotificationStrategy()
+        self.sms_notif = SMSNotificationStrategy()
+        self.push_notif = PushNotificationStrategy()
+        self.notifContext = NotificationContext(self.email_notif)
+>>>>>>> 45b57f024ed5827a41620ed3387f12310568d8ed
 
-
-
-    def test_ajouter_tache(self):
         self.projet.ajouter_tache(self.tache)
+<<<<<<< HEAD
         self.assertIn(self.tache, self.projet.taches)
 
     def test_afficher_taches(self):
@@ -87,6 +99,45 @@ class TestProjet(unittest.TestCase):
         self.projet.ajouter_jalon(self.jalon)
         self.assertEqual(self.projet.afficher_jalons(), "\n- phase 1 terminée (2024-06-03)\n")
 
+=======
+        self.projet.ajouter_tache(self.tache1)
+
+
+
+
+
+
+      #methode pour tester la methode ajouter_membre_equipe dans la classe projet
+    def test_ajouter_membre_equipe(self):
+        nouveau_membre = Membre('Khady Niang', 'Testeur')
+        self.projet.ajouter_membre_equipe(nouveau_membre)
+        self.assertIn(nouveau_membre, self.projet.equipe.membres)
+
+    # methode pour tester la methode definir_budget dans la classe Projet
+    def test_definir_budget(self):
+        nouveau_budget = 500000.00
+        self.projet.definir_budget(nouveau_budget)
+        self.assertEqual(self.projet.budget,nouveau_budget)
+
+    #methode pour tester la methode enregistrer_changement dans la classe Projet
+
+    def test_enregistrer_changement(self):
+        date_changement = datetime(2024,3,12)
+        changement = Changement('La duree du projet',2,date_changement )
+        self.projet.changements.append(changement)
+        self.assertIn(changement,self.projet
+                      .changements)
+        self.assertEqual(changement.date,date_changement)
+
+
+    #Methode pour tester la methode calculer_chemin_critique dans la classe Projet
+    def test_calculer_chemin_critique(self):
+        self.projet.calculer_chemin_critique()
+
+        # Vérification du chemin critique
+        chemin_critique_attendu = [self.tache, self.tache1]
+        self.assertEqual(self.projet.chemin_critique, chemin_critique_attendu)
+>>>>>>> 45b57f024ed5827a41620ed3387f12310568d8ed
 
 
 

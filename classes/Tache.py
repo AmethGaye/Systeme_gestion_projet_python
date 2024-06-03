@@ -1,6 +1,6 @@
 import datetime
 
-from classes import Membre , Tache
+from classes import Membre
 
 
 class Tache:
@@ -14,7 +14,7 @@ class Tache:
         self.statut = statut
         self.dependances = []
 
-    def ajouter_dependance(self, tache: Tache):
+    def ajouter_dependance(self, tache: 'Tache'):
         self.dependances.append(tache)
 
     def mettre_a_jour_statut(self, statut: str):

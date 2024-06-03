@@ -111,8 +111,6 @@ class Projet:
         # Identification des tâches du chemin critique
         self.chemin_critique = [tache for tache in self.taches if date_debut_tard[tache] == date_debut_tot[tache]]
 
-
-
     def afficher_chemin_critique(self):
         tache = "\n"
         for val in self.chemin_critique:
@@ -122,4 +120,3 @@ class Projet:
     def notifier(self, message: str, destinataires):
         if self.notification_context:
             self.notification_context.notifier(message, destinataires)
-

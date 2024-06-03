@@ -1,6 +1,5 @@
 import unittest
 from datetime import datetime
-
 from classes.Changement import Changement
 from classes.Equipe import Equipe
 from classes.Jalon import Jalon
@@ -20,18 +19,22 @@ class TestProjet(unittest.TestCase):
         date_fin = datetime(2024, 7, 6)
         date = datetime(2024, 6, 3)
         # instance des classes
-        membre = Membre("Mamadou Ba", "Développeur")
-        tache = Tache("Analyse des besoins", "test", '2024-06-03', '2024-06-10', membre, "Non démarrée")
-        projet = Projet("Soumaya", "test", date_debut, date_fin)
-        risque = Risque("Retard de livraison", 0.4, "Elevé")
-        jalon = Jalon("phase 1", date.date())
-        equipe = Equipe()
-        email_notif = EmailNotificationStrategy()
-        sms_notif = SMSNotificationStrategy()
-        push_notif = PushNotificationStrategy()
-        notifContext = NotificationContext(email_notif)
+        self.membre = Membre("Mamadou Ba", "Développeur")
+        self.tache = Tache("Analyse des besoins", "test", '2024-06-03', '2024-06-10', self.membre, "Non démarrée")
+        self.projet = Projet("Soumaya", "test", date_debut.date(), date_fin.date())
+        self.risque = Risque("Retard de livraison", 0.4, "Elevé")
+        self.jalon = Jalon("phase 1", date.date())
+        self.equipe = Equipe()
+        self.email_notif = EmailNotificationStrategy()
+        self.sms_notif = SMSNotificationStrategy()
+        self.push_notif = PushNotificationStrategy()
+        self.notifContext = NotificationContext(self.email_notif)
 
 
+
+
+installed_packages = [pkg.key for pkg in pkg_resources.working_set]
+print(installed_packages)
 
 if __name__ == '__main__':
     unittest.main()

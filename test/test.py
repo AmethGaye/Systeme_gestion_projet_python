@@ -33,5 +33,11 @@ class TestProjet(unittest.TestCase):
 
 
 
+    def test_ajouter_tache(self):
+        self.projet.ajouter_tache(self.tache)
+        self.assertEqual(self.projet.taches,[self.tache])
+
+
+
 if __name__ == '__main__':
     unittest.main()

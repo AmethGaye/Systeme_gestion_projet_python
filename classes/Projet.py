@@ -67,7 +67,6 @@ class Projet:
                 date_debut_tot[tache] = max(date_fin_tot[dependance] for dependance in tache.dependances)
             date_fin_tot[tache] = date_debut_tot[tache] + (tache.date_fin - tache.date_debut)
 
-
         # Tâche finale pour commencer la propagation des dates au plus tard
         tache_finale = max(self.taches, key=lambda t: date_fin_tot[t])
         date_fin_tard[tache_finale] = date_fin_tot[tache_finale]
@@ -92,30 +91,25 @@ class Projet:
         for tache in chemin_critique:
             print(f"{tache.nom} ({tache.date_debut.strftime('%Y-%m-%d')}, {tache.date_fin.strftime('%Y-%m-%d')})")
 
-
     def notifier(self, message: str, destinataires):
         if self.notification_context:
             self.notification_context.notifier(message, destinataires)
 # Exemple d'utilisation
-#membre = Membre("Alice", 'assistant')
+# membre = Membre("Alice", 'assistant')
 
 
-#tache3 = Tache("Developpement", "Description du développement", datetime.datetime(2023, 1, 1), datetime.datetime(2023, 2, 10), membre, "Non commencée")
+# tache3 = Tache("Developpement", "Description du développement", datetime.datetime(2023, 1, 1), datetime.datetime(2023, 2, 10), membre, "Non commencée")
 
-#tache1 = Tache("Analyse des besoins", "Description de l'analyse", datetime.datetime(2023, 1, 1), datetime.datetime(2023, 1, 10), membre, "Non commencée")
-#tache2 = Tache("Conception", "Description de la conception", datetime.datetime(2023, 1, 11), datetime.datetime(2023, 1, 20), membre, "Non commencée")
-
-
-#tache3.ajouter_dependance(tache1)
-#tache1.ajouter_dependance(tache3)
-
-#projet = Projet("Projet X", 'premier projet', datetime.datetime(2024, 3, 1), datetime.datetime(2024, 3, 21))
-#projet.ajouter_tache(tache1)
-#projet.ajouter_tache(tache2)
-##projet.ajouter_tache(tache3)
-#projet.ajouter_membre_equipe(membre)
-#projet.calculer_chemin_critique()
+# tache1 = Tache("Analyse des besoins", "Description de l'analyse", datetime.datetime(2023, 1, 1), datetime.datetime(2023, 1, 10), membre, "Non commencée")
+# tache2 = Tache("Conception", "Description de la conception", datetime.datetime(2023, 1, 11), datetime.datetime(2023, 1, 20), membre, "Non commencée")
 
 
+# tache3.ajouter_dependance(tache1)
+# tache1.ajouter_dependance(tache3)
 
-
+# projet = Projet("Projet X", 'premier projet', datetime.datetime(2024, 3, 1), datetime.datetime(2024, 3, 21))
+# projet.ajouter_tache(tache1)
+# projet.ajouter_tache(tache2)
+# projet.ajouter_tache(tache3)
+# projet.ajouter_membre_equipe(membre)
+# projet.calculer_chemin_critique()

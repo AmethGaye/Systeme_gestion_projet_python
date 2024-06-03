@@ -19,3 +19,4 @@ class Tache:
 
     def mettre_a_jour_statut(self, statut: str):
         self.statut = statut
+

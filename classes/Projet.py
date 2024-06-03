@@ -27,12 +27,24 @@ class Projet:
         self.chemin_critique = []
         self.notification_context = None
 
+    def __str__(self):
+        return f"\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n" \
+               f"\nRapport d'activités du projet '{self.nom}' :\nVersion : {self.version}\nDates : {self.date_debut} à {self.date_fin}\nBudget : {self.budget} FCFA\nEquipe :" \
+               f" {self.equipe}Tâche : {self.afficher_taches()}Jalons : {self.afficher_jalons()}Risques : " \
+               f"{self.afficher_risques()}\nChemin Critique : {self.afficher_chemin_critique()}"
+
     def set_notification_strategy(self, strategy: NotificationStrategy):
         self.notification_context = NotificationContext(strategy)
 
     def ajouter_tache(self, tache: Tache):
         self.taches.append(tache)
         self.notifier(f'Nouvelle tache ajoutée: {tache.nom}', self.equipe.obtenir_membres())
+
+    def afficher_taches(self):
+        tache = "\n"
+        for val in self.taches:
+            tache += f"- {val.nom}, ({val.date_debut} à {val.date_fin}), Responsable : {val.responsable.nom}, Statut : {val.statut}\n"
+        return tache
 
     def ajouter_membre_equipe(self, membre: Membre):
         self.equipe.ajouter_membre(membre)
@@ -46,9 +58,21 @@ class Projet:
         self.risques.append(risque)
         self.notifier(f"Nouveau risque ajouté: {risque.description}", self.equipe.obtenir_membres())
 
+    def afficher_risques(self):
+        risque = "\n"
+        for val in self.risques:
+            risque += f"- {val.description} (Probabilité : {val.probabilite}, Impact : {val.impact})"
+        return risque
+
     def ajouter_jalon(self, jalon: Jalon):
         self.jalons.append(jalon)
         self.notifier(f"Nouveau jalon ajouté: {jalon.nom}", self.equipe.obtenir_membres())
+
+    def afficher_jalons(self):
+        jalon = "\n"
+        for val in self.jalons:
+            jalon += f"- {val.nom} terminée ({val.date})\n"
+        return jalon
 
     def enregistrer_changement(self, description: str):
         self.changements.append(Changement(description, self.version, datetime.datetime.now()))
@@ -85,31 +109,17 @@ class Projet:
             date_debut_tard[tache] = date_fin_tard[tache] - (tache.date_fin - tache.date_debut)
 
         # Identification des tâches du chemin critique
-        chemin_critique = [tache for tache in self.taches if date_debut_tard[tache] == date_debut_tot[tache]]
+        self.chemin_critique = [tache for tache in self.taches if date_debut_tard[tache] == date_debut_tot[tache]]
 
-        print("Chemin critique :")
-        for tache in chemin_critique:
-            print(f"{tache.nom} ({tache.date_debut.strftime('%Y-%m-%d')}, {tache.date_fin.strftime('%Y-%m-%d')})")
+
+
+    def afficher_chemin_critique(self):
+        tache = "\n"
+        for val in self.chemin_critique:
+            tache += f"- {val.nom} ({val.date_debut} à {val.date_fin})\n"
+        return tache
 
     def notifier(self, message: str, destinataires):
         if self.notification_context:
             self.notification_context.notifier(message, destinataires)
-# Exemple d'utilisation
-# membre = Membre("Alice", 'assistant')
 
-
-# tache3 = Tache("Developpement", "Description du développement", datetime.datetime(2023, 1, 1), datetime.datetime(2023, 2, 10), membre, "Non commencée")
-
-# tache1 = Tache("Analyse des besoins", "Description de l'analyse", datetime.datetime(2023, 1, 1), datetime.datetime(2023, 1, 10), membre, "Non commencée")
-# tache2 = Tache("Conception", "Description de la conception", datetime.datetime(2023, 1, 11), datetime.datetime(2023, 1, 20), membre, "Non commencée")
-
-
-# tache3.ajouter_dependance(tache1)
-# tache1.ajouter_dependance(tache3)
-
-# projet = Projet("Projet X", 'premier projet', datetime.datetime(2024, 3, 1), datetime.datetime(2024, 3, 21))
-# projet.ajouter_tache(tache1)
-# projet.ajouter_tache(tache2)
-# projet.ajouter_tache(tache3)
-# projet.ajouter_membre_equipe(membre)
-# projet.calculer_chemin_critique()

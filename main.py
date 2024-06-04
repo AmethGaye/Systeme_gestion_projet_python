@@ -17,15 +17,11 @@ projet1.set_notification_strategy(EmailNotificationStrategy())
 projet1.definir_budget(350000)
 risque1 = Risque("Retard de livraison", 0.4, "Elevé")
 dateDebut = datetime(2024, 1, 1)
-<<<<<<< HEAD
-dateFin = datetime(2024, 1, 31)
-dateDebut1 = datetime(2024, 2, 1)
-dateFin1 = datetime(2024, 6, 30)
-=======
+
 dateFin = datetime(2024 , 1, 31)
 dateDebut1 = datetime(2024, 2, 1)
 dateFin1 = datetime(2024 , 6, 30)
->>>>>>> a0c47494734062410efe1e27d2c61fa6723ee993
+
 tache1 = Tache("Analyse des besoins","test",dateDebut.date(), dateFin.date(), membre2,"Terminée")
 tache2 = Tache("Développement","test",dateDebut1.date(), dateFin1.date(), membre1,"Non démarrée")
 tache2.ajouter_dependance(tache1)

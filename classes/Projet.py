@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 
 from classes.Changement import Changement
 from classes.Equipe import Equipe
@@ -12,7 +12,7 @@ from notifications.NotificationStrategy import NotificationStrategy
 
 class Projet:
 
-    def __init__(self, nom: str, description: str, date_debut: datetime.datetime, date_fin: datetime.datetime):
+    def __init__(self, nom: str, description: str, date_debut: datetime, date_fin: datetime):
         self.nom = nom
         self.description = description
         self.date_debut = date_debut
@@ -44,7 +44,9 @@ class Projet:
         tache = "\n"
         for val in self.taches:
             tache += f"- {val.nom}, ({val.date_debut} à {val.date_fin}), Responsable : {val.responsable.nom}, Statut : {val.statut}\n"
+
         return tache
+
 
     def ajouter_membre_equipe(self, membre: Membre):
         self.equipe.ajouter_membre(membre)
@@ -75,7 +77,7 @@ class Projet:
         return jalon
 
     def enregistrer_changement(self, description: str):
-        self.changements.append(Changement(description, self.version, datetime.datetime.now()))
+        self.changements.append(Changement(description, self.version, datetime.now()))
         self.version += 1
         self.notifier(f"Changement enregistré: {description} (version {self.version})", self.equipe.obtenir_membres())
 
@@ -99,8 +101,8 @@ class Projet:
         # Initialisation des dates de début et fin au plus tard pour les autres tâches
         for tache in self.taches:
             if tache != tache_finale:
-                date_fin_tard[tache] = datetime.datetime.max
-                date_debut_tard[tache] = datetime.datetime.max
+                date_fin_tard[tache] = datetime.max
+                date_debut_tard[tache] = datetime.max
 
         # Calcul des dates au plus tard
         for tache in reversed(self.taches):
@@ -120,3 +122,5 @@ class Projet:
     def notifier(self, message: str, destinataires):
         if self.notification_context:
             self.notification_context.notifier(message, destinataires)
+
+

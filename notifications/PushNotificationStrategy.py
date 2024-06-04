@@ -4,4 +4,4 @@ from notifications.NotificationStrategy import NotificationStrategy
 
 class PushNotificationStrategy(NotificationStrategy):
     def envoyer(self, message: str, destinataire: Membre):
-        print(f"Push notification envoyé à {destinataire.nom}: {message}")
+        print(f"Notification par Push envoyé à {destinataire.nom}: {message}")

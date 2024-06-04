@@ -12,6 +12,9 @@ from notifications.EmailNotificationStrategy import EmailNotificationStrategy
 from notifications.NotificationContext import NotificationContext
 from notifications.PushNotificationStrategy import PushNotificationStrategy
 from notifications.SMSNotificationStrategy import SMSNotificationStrategy
+from unittest.mock import patch
+from unittest.mock import MagicMock
+from io import StringIO
 
 
 class TestProjet(unittest.TestCase):
@@ -21,20 +24,16 @@ class TestProjet(unittest.TestCase):
         date = datetime(2024, 6, 3)
         # instance des classes
         self.membre = Membre("Mamadou Ba", "Développeur")
-        self.tache = Tache("Analyse des besoins", "test", datetime(2024,6,3).date(), datetime(2024,7,12).date(), self.membre, "Terminée")
-        self.tache1 = Tache("Developpement", "phase de devolpppement", datetime(2024,4,3).date(), datetime(2024,8,12).date(), self.membre, "Non démarrée")
+        self.tache = Tache("Analyse des besoins", "test", datetime(2024, 6, 3).date(), datetime(2024, 7, 12).date(),
+                           self.membre, "Terminée")
+        self.tache1 = Tache("Developpement", "phase de devolpppement", datetime(2024, 4, 3).date(),
+                            datetime(2024, 8, 12).date(), self.membre, "Non démarrée")
         self.projet = Projet("Soumaya", "test", date_debut.date(), date_fin.date())
         self.risque = Risque("Retard de livraison", 0.4, "Elevé")
         self.jalon = Jalon("phase 1", date.date())
         self.equipe = Equipe()
-        self.email_notif = EmailNotificationStrategy()
-        self.sms_notif = SMSNotificationStrategy()
-        self.push_notif = PushNotificationStrategy()
-        self.notifContext = NotificationContext(self.email_notif)
 
-
-
-      #methode pour tester la methode ajouter_membre_equipe dans la classe projet
+    #methode pour tester la methode ajouter_membre_equipe dans la classe projet
     def test_ajouter_membre_equipe(self):
         nouveau_membre = Membre('Khady Niang', 'Testeur')
         self.projet.ajouter_membre_equipe(nouveau_membre)
@@ -44,18 +43,17 @@ class TestProjet(unittest.TestCase):
     def test_definir_budget(self):
         nouveau_budget = 500000.00
         self.projet.definir_budget(nouveau_budget)
-        self.assertEqual(self.projet.budget,nouveau_budget)
+        self.assertEqual(self.projet.budget, nouveau_budget)
 
     #methode pour tester la methode enregistrer_changement dans la classe Projet
 
     def test_enregistrer_changement(self):
-        date_changement = datetime(2024,3,12)
-        changement = Changement('La duree du projet',2,date_changement )
+        date_changement = datetime(2024, 3, 12)
+        changement = Changement('La duree du projet', 2, date_changement)
         self.projet.changements.append(changement)
-        self.assertIn(changement,self.projet
+        self.assertIn(changement, self.projet
                       .changements)
-        self.assertEqual(changement.date,date_changement)
-
+        self.assertEqual(changement.date, date_changement)
 
     #Methode pour tester la methode calculer_chemin_critique dans la classe Projet
     def test_calculer_chemin_critique(self):
@@ -75,7 +73,9 @@ class TestProjet(unittest.TestCase):
 
     def test_afficher_taches(self):
         self.projet.ajouter_tache(self.tache)
-        self.assertEqual(self.projet.afficher_taches(),"\n- Analyse des besoins, (2024-06-03 à 2024-07-12), Responsable : Mamadou Ba, Statut : Terminée\n")
+        self.assertEqual(self.projet.afficher_taches(),
+                         "\n- Analyse des besoins, (2024-06-03 à 2024-07-12), Responsable : Mamadou Ba, Statut : Terminée\n")
+
     def test_ajouter_risque(self):
         self.projet.ajouter_risque(self.risque)
         self.assertIn(self.risque, self.projet.risques)
@@ -91,6 +91,7 @@ class TestProjet(unittest.TestCase):
     def test_afficher_jalon(self):
         self.projet.ajouter_jalon(self.jalon)
         self.assertEqual(self.projet.afficher_jalons(), "\n- phase 1 terminée (2024-06-03)\n")
+
 
 #=======================================================================================================
 class TestEquipe(unittest.TestCase):
@@ -120,7 +121,55 @@ class TestTache(unittest.TestCase):
     def test_mettre_a_jour_statut(self):
         nouveau_statut = "En cour"
         self.tache.mettre_a_jour_statut(nouveau_statut)
-        self.assertEqual(self.tache.statut,nouveau_statut)
+        self.assertEqual(self.tache.statut, nouveau_statut)
+
+
+class TestNotificationStrategy(unittest.TestCase):
+    def setUp(self):
+        self.email_notif = EmailNotificationStrategy()
+        self.sms_notif = SMSNotificationStrategy()
+        self.push_notif = PushNotificationStrategy()
+        self.member = Membre("Mamadou Ba", "Développeur")
+        self.msg = "Nouvelle tache ajoutée: Analyse des besoins"
+
+    @patch('sys.stdout', new_callable=StringIO)
+    def test_email_envoyer(self, mock_stdout):
+        self.email_notif.envoyer(self.msg, self.member)
+        self.assertEqual(mock_stdout.getvalue().strip(), f"Notification par Email envoyé à Mamadou Ba: {self.msg}")
+
+    @patch('sys.stdout', new_callable=StringIO)
+    def test_sms_envoyer(self, mock_stdout):
+        self.sms_notif.envoyer(self.msg, self.member)
+        self.assertEqual(mock_stdout.getvalue().strip(), f"Notification par SMS envoyé à Mamadou Ba: {self.msg}")
+
+    @patch('sys.stdout', new_callable=StringIO)
+    def test_push_envoyer(self, mock_stdout):
+        self.push_notif.envoyer(self.msg, self.member)
+        self.assertEqual(mock_stdout.getvalue().strip(), f"Notification par Push envoyé à Mamadou Ba: {self.msg}")
+
+
+class TestNotificationContext(unittest.TestCase):
+    def setUp(self):
+        self.email_notif = EmailNotificationStrategy()
+        self.notifContext = NotificationContext(self.email_notif)
+        self.membre1 = Membre("Khady Niang", "développeur")
+        self.membre2 = Membre("Mamadou Ba", "développeur")
+        self.message = "Nouvelle tache ajoutée: Developpement"
+        self.destinataires = [self.membre1, self.membre2]
+
+    def test_notifier(self):
+        mock_strategy = MagicMock(spec=EmailNotificationStrategy)
+        context = NotificationContext(strategy=mock_strategy)
+        context.notifier(self.message, self.destinataires)
+
+        # Vérifier que la méthode envoyer a été appelée avec les bons arguments
+        expected_calls = [unittest.mock.call(self.message, self.membre1),
+                          unittest.mock.call(self.message, self.membre2)]
+        mock_strategy.envoyer.assert_has_calls(expected_calls, any_order=True)
+
+        # Vérifier que la méthode envoyer a été appelée le bon nombre de fois
+        self.assertEqual(mock_strategy.envoyer.call_count, 2)
+
 
 if __name__ == '__main__':
     unittest.main()

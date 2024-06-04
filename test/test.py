@@ -33,7 +33,7 @@ class TestProjet(unittest.TestCase):
         self.jalon = Jalon("phase 1", date.date())
         self.equipe = Equipe()
 
-    #methode pour tester la methode ajouter_membre_equipe dans la classe projet
+    # methode pour tester la methode ajouter_membre_equipe dans la classe projet
     def test_ajouter_membre_equipe(self):
         nouveau_membre = Membre('Khady Niang', 'Testeur')
         self.projet.ajouter_membre_equipe(nouveau_membre)
@@ -45,7 +45,7 @@ class TestProjet(unittest.TestCase):
         self.projet.definir_budget(nouveau_budget)
         self.assertEqual(self.projet.budget, nouveau_budget)
 
-    #methode pour tester la methode enregistrer_changement dans la classe Projet
+    # methode pour tester la methode enregistrer_changement dans la classe Projet
 
     def test_enregistrer_changement(self):
         date_changement = datetime(2024, 3, 12)
@@ -55,7 +55,7 @@ class TestProjet(unittest.TestCase):
                       .changements)
         self.assertEqual(changement.date, date_changement)
 
-    #Methode pour tester la methode calculer_chemin_critique dans la classe Projet
+    # Methode pour tester la methode calculer_chemin_critique dans la classe Projet
     def test_calculer_chemin_critique(self):
         self.projet.ajouter_tache(self.tache)
         self.projet.ajouter_tache(self.tache1)
@@ -64,8 +64,6 @@ class TestProjet(unittest.TestCase):
         # Vérification du chemin critique
         chemin_critique_attendu = [self.tache, self.tache1]
         self.assertEqual(self.projet.chemin_critique, chemin_critique_attendu)
-
-    #===========================================================================================
 
     def test_ajouter_tache(self):
         self.projet.ajouter_tache(self.tache)
@@ -92,8 +90,6 @@ class TestProjet(unittest.TestCase):
         self.projet.ajouter_jalon(self.jalon)
         self.assertEqual(self.projet.afficher_jalons(), "\n- phase 1 terminée (2024-06-03)\n")
 
-
-#=======================================================================================================
 class TestEquipe(unittest.TestCase):
     def setUp(self):
         self.equipe = Equipe()

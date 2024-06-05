@@ -1,9 +1,11 @@
-import datetime
+from datetime import datetime
 
-from classes import Membre
+from classes.Membre import Membre
+from typing import List
 
 
 class Tache:
+<<<<<<< HEAD
     def __init__(
         self,
         nom: str,
@@ -13,13 +15,17 @@ class Tache:
         responsable: Membre,
         statut: str,
     ):
+=======
+    def __init__(self, nom: str, description: str, date_debut: datetime,
+                 date_fin: datetime, responsable: Membre, statut: str):
+>>>>>>> b7b56268ce781e0ac351fe2d9acef28b20fd4344
         self.nom = nom
         self.description = description
         self.date_debut = date_debut
         self.date_fin = date_fin
         self.responsable = responsable
         self.statut = statut
-        self.dependances = []
+        self.dependances: List[Tache] = []
 
     def ajouter_dependance(self, tache: "Tache"):
         self.dependances.append(tache)

@@ -98,7 +98,7 @@ class TestAll(unittest.TestCase):
         self.projet.ajouter_jalon(self.jalon)
         self.assertEqual(self.projet.afficher_jalons(), "\n- phase 1 terminée (2024-06-03)\n")
 
-    """ tester les methodes de la classe Equipe """
+    """ tester les methodes de la classe equipe """
 
     def test_obtenir_membres(self):
         self.equipe.ajouter_membre(self.membre1)

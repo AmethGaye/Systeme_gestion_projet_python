@@ -13,7 +13,7 @@ class Tache:
         self.statut = statut
         self.dependances = []
 
-    def ajouter_dependance(self, tache: 'tache'):
+    def ajouter_dependance(self, tache: 'Tache'):
         self.dependances.append(tache)
 
     def mettre_a_jour_statut(self, statut: str):

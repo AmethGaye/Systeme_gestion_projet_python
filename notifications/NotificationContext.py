@@ -1,4 +1,4 @@
-from classes import Membre
+
 from notifications.NotificationStrategy import NotificationStrategy
 
 

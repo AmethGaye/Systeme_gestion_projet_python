@@ -8,6 +8,7 @@ from classes.Risque import Risque
 from classes.Tache import Tache
 from notifications.NotificationContext import NotificationContext
 from notifications.NotificationStrategy import NotificationStrategy
+from typing import List
 
 
 class Projet:
@@ -17,14 +18,14 @@ class Projet:
         self.description = description
         self.date_debut = date_debut
         self.date_fin = date_fin
-        self.taches = []
+        self.taches: List[Tache] = []
         self.equipe = Equipe()
         self.budget = 0.0
-        self.risques = []
-        self.jalons = []
+        self.risques: List[Risque] = []
+        self.jalons: List[Jalon] = []
         self.version = 1
-        self.changements = []
-        self.chemin_critique = []
+        self.changements: List[Changement] = []
+        self.chemin_critique: List[Tache] = []
         self.notification_context = None
 
     def __str__(self):

@@ -24,11 +24,23 @@ class TestAll(unittest.TestCase):
         date = datetime(2024, 6, 3)
         # instance des classes
         self.membre1 = Membre("Mamadou Ba", "Développeur")
-        self.membre2 = Membre('Khady Niang', 'Testeur')
-        self.tache = Tache("Analyse des besoins", "test", datetime(2024, 6, 3).date(), datetime(2024, 7, 12).date(),
-                           self.membre1, "Terminée")
-        self.tache1 = Tache("Developpement", "phase de devolpppement", datetime(2024, 4, 3).date(),
-                            datetime(2024, 8, 12).date(), self.membre1, "Non démarrée")
+        self.membre2 = Membre("Khady Niang", "Testeur")
+        self.tache = Tache(
+            "Analyse des besoins",
+            "test",
+            datetime(2024, 6, 3).date(),
+            datetime(2024, 7, 12).date(),
+            self.membre1,
+            "Terminée",
+        )
+        self.tache1 = Tache(
+            "Developpement",
+            "phase de devolpppement",
+            datetime(2024, 4, 3).date(),
+            datetime(2024, 8, 12).date(),
+            self.membre1,
+            "Non démarrée",
+        )
         self.projet = Projet("Soumaya", "test", date_debut.date(), date_fin.date())
         self.risque = Risque("Retard de livraison", 0.4, "Elevé")
         self.jalon = Jalon("phase 1", date.date())
@@ -57,10 +69,9 @@ class TestAll(unittest.TestCase):
 
     def test_enregistrer_changement(self):
         date_changement = datetime(2024, 3, 12)
-        changement = Changement('La duree du projet', 2, date_changement)
+        changement = Changement("La duree du projet", 2, date_changement)
         self.projet.changements.append(changement)
-        self.assertIn(changement, self.projet
-                      .changements)
+        self.assertIn(changement, self.projet.changements)
         self.assertEqual(changement.date, date_changement)
 
     # Methode pour tester la methode calculer_chemin_critique dans la classe Projet
@@ -79,8 +90,10 @@ class TestAll(unittest.TestCase):
 
     def test_afficher_taches(self):
         self.projet.ajouter_tache(self.tache)
-        self.assertEqual(self.projet.afficher_taches(),
-                         "\n- Analyse des besoins, (2024-06-03 à 2024-07-12), Responsable : Mamadou Ba, Statut : Terminée\n")
+        self.assertEqual(
+            self.projet.afficher_taches(),
+            "\n- Analyse des besoins, (2024-06-03 à 2024-07-12), Responsable : Mamadou Ba, Statut : Terminée\n",
+        )
 
     def test_ajouter_risque(self):
         self.projet.ajouter_risque(self.risque)
@@ -88,7 +101,10 @@ class TestAll(unittest.TestCase):
 
     def test_afficher_risques(self):
         self.projet.ajouter_risque(self.risque)
-        self.assertEqual(self.projet.afficher_risques(), "\n- Retard de livraison (Probabilité : 0.4, Impact : Elevé)")
+        self.assertEqual(
+            self.projet.afficher_risques(),
+            "\n- Retard de livraison (Probabilité : 0.4, Impact : Elevé)",
+        )
 
     def test_ajouter_jalon(self):
         self.projet.ajouter_jalon(self.jalon)
@@ -96,7 +112,9 @@ class TestAll(unittest.TestCase):
 
     def test_afficher_jalon(self):
         self.projet.ajouter_jalon(self.jalon)
-        self.assertEqual(self.projet.afficher_jalons(), "\n- phase 1 terminée (2024-06-03)\n")
+        self.assertEqual(
+            self.projet.afficher_jalons(), "\n- phase 1 terminée (2024-06-03)\n"
+        )
 
     """ tester les methodes de la classe Equipe """
 
@@ -118,20 +136,29 @@ class TestAll(unittest.TestCase):
 
     """ tester les notifications """
 
-    @patch('sys.stdout', new_callable=StringIO)
+    @patch("sys.stdout", new_callable=StringIO)
     def test_email_envoyer(self, mock_stdout):
         self.email_notif.envoyer(self.msg, self.membre1)
-        self.assertEqual(mock_stdout.getvalue().strip(), f"Notification par Email envoyé à Mamadou Ba: {self.msg}")
+        self.assertEqual(
+            mock_stdout.getvalue().strip(),
+            f"Notification par Email envoyé à Mamadou Ba: {self.msg}",
+        )
 
-    @patch('sys.stdout', new_callable=StringIO)
+    @patch("sys.stdout", new_callable=StringIO)
     def test_sms_envoyer(self, mock_stdout):
         self.sms_notif.envoyer(self.msg, self.membre1)
-        self.assertEqual(mock_stdout.getvalue().strip(), f"Notification par SMS envoyé à Mamadou Ba: {self.msg}")
+        self.assertEqual(
+            mock_stdout.getvalue().strip(),
+            f"Notification par SMS envoyé à Mamadou Ba: {self.msg}",
+        )
 
-    @patch('sys.stdout', new_callable=StringIO)
+    @patch("sys.stdout", new_callable=StringIO)
     def test_push_envoyer(self, mock_stdout):
         self.push_notif.envoyer(self.msg, self.membre1)
-        self.assertEqual(mock_stdout.getvalue().strip(), f"Notification par Push envoyé à Mamadou Ba: {self.msg}")
+        self.assertEqual(
+            mock_stdout.getvalue().strip(),
+            f"Notification par Push envoyé à Mamadou Ba: {self.msg}",
+        )
 
     def test_notifier(self):
         mock_strategy = MagicMock(spec=EmailNotificationStrategy)
@@ -139,13 +166,15 @@ class TestAll(unittest.TestCase):
         context.notifier(self.message, self.destinataires)
 
         # Vérifier que la méthode envoyer a été appelée avec les bons arguments
-        expected_calls = [unittest.mock.call(self.message, self.membre1),
-                          unittest.mock.call(self.message, self.membre2)]
+        expected_calls = [
+            unittest.mock.call(self.message, self.membre1),
+            unittest.mock.call(self.message, self.membre2),
+        ]
         mock_strategy.envoyer.assert_has_calls(expected_calls, any_order=True)
 
         # Vérifier que la méthode envoyer a été appelée le bon nombre de fois
         self.assertEqual(mock_strategy.envoyer.call_count, 2)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

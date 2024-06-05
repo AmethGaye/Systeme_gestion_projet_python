@@ -7,4 +7,3 @@ class NotificationStrategy(ABC):
     @abstractmethod
     def envoyer(self, message: str, destinataire: Membre):
         pass
-

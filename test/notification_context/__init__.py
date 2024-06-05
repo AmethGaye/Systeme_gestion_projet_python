@@ -9,4 +9,3 @@ class NotificationContext:
     def notifier(self, message: str, destinataires: Membre):
         for destinataire in destinataires:
             self.strategy.envoyer(message, destinataire)
-

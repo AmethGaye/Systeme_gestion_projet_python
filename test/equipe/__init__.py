@@ -8,7 +8,7 @@ class Equipe:
     def __str__(self):
         membre = "\n"
         for m in self.membres:
-            membre += f"- {m.nom} ({m.role}) \n";
+            membre += f"- {m.nom} ({m.role}) \n"
         return membre
 
     def ajouter_membre(self, membre: Membre):

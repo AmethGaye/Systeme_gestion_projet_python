@@ -21,7 +21,6 @@ dateDebut = datetime(2024, 1, 1)
 dateFin = datetime(2024, 1, 31)
 dateDebut1 = datetime(2024, 2, 1)
 dateFin1 = datetime(2024, 6, 30)
-
 tache1 = Tache("Analyse des besoins", "test",
                dateDebut, dateFin, membre2, "Terminée")
 tache2 = Tache("Développement", "test",

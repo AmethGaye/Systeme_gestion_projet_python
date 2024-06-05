@@ -4,8 +4,8 @@ from typing import List
 
 
 class Tache:
-    def __init__(self, nom: str, description: str, date_debut: datetime, date_fin: datetime,
-                 responsable: Membre, statut: str):
+    def __init__(self, nom: str, description: str, date_debut: datetime,
+                 date_fin: datetime, responsable: Membre, statut: str):
         self.nom = nom
         self.description = description
         self.date_debut = date_debut

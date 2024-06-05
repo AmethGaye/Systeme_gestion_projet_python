@@ -1,4 +1,4 @@
-from classes.Membre import Membre
+from classes.membre import Membre
 
 
 class Equipe:

@@ -1,13 +1,13 @@
 from datetime import datetime
 
-from classes.Changement import Changement
-from classes.Equipe import Equipe
-from classes.Jalon import Jalon
-from classes.Membre import Membre
-from classes.Risque import Risque
-from classes.Tache import Tache
-from notifications.NotificationContext import NotificationContext
-from notifications.NotificationStrategy import NotificationStrategy
+from classes.changement import Changement
+from classes.equipe import Equipe
+from classes.jalon import Jalon
+from classes.membre import Membre
+from classes.risque import Risque
+from classes.tache import Tache
+from notifications.notification_context import NotificationContext
+from notifications.notification_strategy import NotificationStrategy
 from typing import List
 
 
@@ -29,19 +29,38 @@ class Projet:
         self.notification_context = None
 
     def __str__(self):
+        """
+        Rapport d'activités du projet
+        :return: str
+        """
         return f"\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n" \
                f"\nRapport d'activités du projet '{self.nom}' :\nVersion : {self.version}\nDates : {self.date_debut} à {self.date_fin}\nBudget : {self.budget} FCFA\nEquipe :" \
                f" {self.equipe}Tâche : {self.afficher_taches()}Jalons : {self.afficher_jalons()}Risques : " \
                f"{self.afficher_risques()}\nChemin Critique : {self.afficher_chemin_critique()}"
 
     def set_notification_strategy(self, strategy: NotificationStrategy):
+        """
+        definir une strategie de notification.
+        :param strategy: StrategyNotification
+        :return: None
+        """
         self.notification_context = NotificationContext(strategy)
 
     def ajouter_tache(self, tache: Tache):
+        """
+        ajouter un tache dans la liste des taches.
+        notifier egalement les membre concernés
+        :param tache: Tache
+        :return: None
+        """
         self.taches.append(tache)
         self.notifier(f'Nouvelle tache ajoutée: {tache.nom}', self.equipe.obtenir_membres())
 
     def afficher_taches(self):
+        """
+        retourne  la liste des taches sous format chaine de cractere.
+        :return: str
+        """
         tache = "\n"
         for val in self.taches:
             tache += f"- {val.nom}, ({val.date_debut} à {val.date_fin}), Responsable : {val.responsable.nom}, Statut : {val.statut}\n"
@@ -50,34 +69,71 @@ class Projet:
 
 
     def ajouter_membre_equipe(self, membre: Membre):
+        """
+        ajouter un membre dans l'equipe.
+        notifier egalement les membre concernés
+        :param membre: Membre
+        :return: None
+        """
         self.equipe.ajouter_membre(membre)
         self.notifier(f"{membre.nom} a été ajoutée à l'équipe", self.equipe.obtenir_membres())
 
     def definir_budget(self, budget: float):
+        """
+        definir le budget du bureau.
+        notifier egalement les membre concernés.
+        :param budget: float
+        :return: None
+        """
         self.budget = budget
         self.notifier(f"Le budget du projet a été défini à {self.budget} FCFA", self.equipe.obtenir_membres())
 
     def ajouter_risque(self, risque: Risque):
+        """
+        ajouter un risque dans la liste des risques.
+        notifier egalement les membre concernés
+        :param risque: Risque
+        :return: None
+        """
         self.risques.append(risque)
         self.notifier(f"Nouveau risque ajouté: {risque.description}", self.equipe.obtenir_membres())
 
     def afficher_risques(self):
+        """
+        retourne la liste des risques sous format chaine de cractere.
+        :return: str
+        """
         risque = "\n"
         for val in self.risques:
             risque += f"- {val.description} (Probabilité : {val.probabilite}, Impact : {val.impact})"
         return risque
 
     def ajouter_jalon(self, jalon: Jalon):
+        """
+        ajouter un jalon dans la liste des jalons.
+        notifier egalement les membre concernés.
+        :param jalon: Jalon
+        :return: None
+        """
         self.jalons.append(jalon)
         self.notifier(f"Nouveau jalon ajouté: {jalon.nom}", self.equipe.obtenir_membres())
 
     def afficher_jalons(self):
+        """
+        retourne la liste des jalons sous format chaine de cractere.
+        :return: str
+        """
         jalon = "\n"
         for val in self.jalons:
             jalon += f"- {val.nom} terminée ({val.date})\n"
         return jalon
 
     def enregistrer_changement(self, description: str):
+        """
+        enregistrer un changement
+        :param description: str
+        :return: None
+        """
         self.changements.append(Changement(description, self.version, datetime.now()))
         self.version += 1
         self.notifier(f"Changement enregistré: {description} (version {self.version})", self.equipe.obtenir_membres())
@@ -115,12 +171,22 @@ class Projet:
         self.chemin_critique = [tache for tache in self.taches ]
 
     def afficher_chemin_critique(self):
+        """
+        retourne la liste des chemins critiques sous format chaine de cractere.
+        :return: str
+        """
         tache = "\n"
         for val in self.chemin_critique:
             tache += f"- {val.nom} ({val.date_debut} à {val.date_fin})\n"
         return tache
 
     def notifier(self, message: str, destinataires):
+        """
+        notifier tous les membres de l'equipe.
+        :param message: str
+        :param destinataires: List[Membre]
+        :return:
+        """
         if self.notification_context:
             self.notification_context.notifier(message, destinataires)
 

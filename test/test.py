@@ -1,17 +1,17 @@
 import unittest
 from datetime import datetime
 
-from classes.Changement import Changement
-from classes.Equipe import Equipe
-from classes.Jalon import Jalon
-from classes.Membre import Membre
-from classes.Projet import Projet
-from classes.Risque import Risque
-from classes.Tache import Tache
-from notifications.EmailNotificationStrategy import EmailNotificationStrategy
-from notifications.NotificationContext import NotificationContext
-from notifications.PushNotificationStrategy import PushNotificationStrategy
-from notifications.SMSNotificationStrategy import SMSNotificationStrategy
+from classes.changement import Changement
+from classes.equipe import Equipe
+from classes.jalon import Jalon
+from classes.membre import Membre
+from classes.projet import Projet
+from classes.risque import Risque
+from classes.tache import Tache
+from notifications.email_notification_strategy import EmailNotificationStrategy
+from notifications.notification_context import NotificationContext
+from notifications.push_notification_strategy import PushNotificationStrategy
+from notifications.sms_notification_strategy import SMSNotificationStrategy
 from unittest.mock import patch
 from unittest.mock import MagicMock
 from io import StringIO
@@ -41,19 +41,19 @@ class TestAll(unittest.TestCase):
         self.message = "Nouvelle tache ajoutée: Developpement"
         self.destinataires = [self.membre1, self.membre2]
 
-    """ tester les methodes de la classe Projet """
+    """ tester les methodes de la classe projet """
 
     def test_ajouter_membre_equipe(self):
         self.projet.ajouter_membre_equipe(self.membre2)
         self.assertIn(self.membre2, self.projet.equipe.membres)
 
-    # methode pour tester la methode definir_budget dans la classe Projet
+    # methode pour tester la methode definir_budget dans la classe projet
     def test_definir_budget(self):
         nouveau_budget = 500000.00
         self.projet.definir_budget(nouveau_budget)
         self.assertEqual(self.projet.budget, nouveau_budget)
 
-    # methode pour tester la methode enregistrer_changement dans la classe Projet
+    # methode pour tester la methode enregistrer_changement dans la classe projet
 
     def test_enregistrer_changement(self):
         date_changement = datetime(2024, 3, 12)
@@ -63,7 +63,7 @@ class TestAll(unittest.TestCase):
                       .changements)
         self.assertEqual(changement.date, date_changement)
 
-    # Methode pour tester la methode calculer_chemin_critique dans la classe Projet
+    # Methode pour tester la methode calculer_chemin_critique dans la classe projet
     def test_calculer_chemin_critique(self):
         self.projet.ajouter_tache(self.tache)
         self.projet.ajouter_tache(self.tache1)
@@ -105,7 +105,7 @@ class TestAll(unittest.TestCase):
         membres = self.equipe.obtenir_membres()
         self.assertIn(self.membre1, membres)
 
-    """ tester les methodes de la classe Tache """
+    """ tester les methodes de la classe tache """
 
     def test_ajouter_dependance(self):
         self.tache.ajouter_dependance(self.tache)

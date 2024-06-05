@@ -1,12 +1,12 @@
 import datetime
-from classes.Changement import Changement
-from classes.Equipe import Equipe
-from classes.Jalon import Jalon
-from classes.Membre import Membre
-from classes.Risque import Risque
-from classes.Tache import Tache
-from notifications.NotificationContext import NotificationContext
-from notifications.NotificationStrategy import NotificationStrategy
+from classes.changement import Changement
+from classes.equipe import Equipe
+from classes.jalon import Jalon
+from classes.membre import Membre
+from classes.risque import Risque
+from classes.tache import Tache
+from notifications.notification_context import NotificationContext
+from notifications.notification_strategy import NotificationStrategy
 
 
 class Projet:

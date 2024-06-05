@@ -1,7 +1,7 @@
 from datetime import datetime
-
-from classes.Membre import Membre
+from classes.membre import Membre
 from typing import List
+
 
 class Tache:
     def __init__(self, nom: str, description: str, date_debut: datetime, date_fin: datetime,
@@ -15,8 +15,9 @@ class Tache:
         self.dependances: List[Tache] = []
 
     def ajouter_dependance(self, tache: 'Tache'):
+        """ ajoute une nouvelle dependance dans le projet """
         self.dependances.append(tache)
 
     def mettre_a_jour_statut(self, statut: str):
+        """ mettre a jour de le statut d'une tache """
         self.statut = statut
-

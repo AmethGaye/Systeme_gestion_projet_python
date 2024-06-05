@@ -1,5 +1,5 @@
-from notifications.NotificationStrategy import NotificationStrategy
-from classes.Membre import Membre as Membre
+from notifications.notification_strategy import NotificationStrategy
+from classes.membre import Membre as Membre
 
 
 class EmailNotificationStrategy(NotificationStrategy):

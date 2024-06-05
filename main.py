@@ -1,10 +1,10 @@
 from datetime import datetime
-from classes.Projet import Projet
-from classes.Membre import Membre
-from classes.Tache import Tache
-from classes.Jalon import Jalon
-from classes.Risque import Risque
-from notifications.EmailNotificationStrategy import EmailNotificationStrategy
+from classes.projet import Projet
+from classes.membre import Membre
+from classes.tache import Tache
+from classes.jalon import Jalon
+from classes.risque import Risque
+from notifications.email_notification_strategy import EmailNotificationStrategy
 
 
 date_debut = datetime(2024, 1, 1)

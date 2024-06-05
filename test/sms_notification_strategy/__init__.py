@@ -1,5 +1,5 @@
-from classes import Membre
-from notifications.NotificationStrategy import NotificationStrategy
+from classes.membre import Membre
+from notifications.notification_strategy import NotificationStrategy
 
 
 class SMSNotificationStrategy(NotificationStrategy):

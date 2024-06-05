@@ -5,20 +5,8 @@ from typing import List
 
 
 class Tache:
-<<<<<<< HEAD
-    def __init__(
-        self,
-        nom: str,
-        description: str,
-        date_debut: datetime,
-        date_fin: datetime,
-        responsable: Membre,
-        statut: str,
-    ):
-=======
     def __init__(self, nom: str, description: str, date_debut: datetime,
                  date_fin: datetime, responsable: Membre, statut: str):
->>>>>>> b7b56268ce781e0ac351fe2d9acef28b20fd4344
         self.nom = nom
         self.description = description
         self.date_debut = date_debut
